@@ -36,7 +36,9 @@
             <a class="nav-link" href="#">Logout</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Jeff</a>
+            <a class="nav-link" href="#">
+              {{ this.$store.state.username ? this.$store.state.username: 'user'}}
+            </a>
           </li>
         </ul>
       </div>
