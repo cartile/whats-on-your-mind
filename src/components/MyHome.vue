@@ -4,6 +4,8 @@
   <p class="lead">This is a simple forum application, built with MongoDB, ExpressJS, VueJS, and NodeJS</p>
   <hr class="my-4">
   <p>Click below to start posting your thoughts</p>
-  <a class="btn btn-success btn-lg" href="#" role="button">Get Started</a>
+  <router-link to="/thoughts" class="btn btn-success btn-lg"> 
+              Get Started
+            </router-link>
 </div>
 </template>

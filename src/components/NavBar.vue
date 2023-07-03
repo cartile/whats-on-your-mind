@@ -13,20 +13,24 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <router-link to="/" class="nav-link"> 
+            <router-link to="/" class="nav-link" exact> 
               Home
           </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/thoughts" class="nav-link"> 
+            <router-link to="/thoughts" class="nav-link" exact> 
               Thoughts
             </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Register</a>
+            <router-link to="/register" class="nav-link" exact> 
+              Register
+            </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Login</a>
+            <router-link to="/login" class="nav-link" exact> 
+              Login
+            </router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Logout</a>
