@@ -15,6 +15,10 @@
     components: {
       Navbar,
       AppFooter
+    },
+    beforeCreate: function() {
+      this.$store.dispatch('authenticate')
     }
+
   }
 </script>
