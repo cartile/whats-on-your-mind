@@ -6,6 +6,8 @@ import ThoughtCreate from '../views/thoughts/ThoughtCreate.vue'
 import ThoughtsAll from '../views/thoughts/ThoughtsAll.vue'
 import ThoughtEdit from '../views/thoughts/ThoughtEdit.vue'
 
+const isLoggedIn = false;
+
 const routes = [
   {
     path: '/',
@@ -15,27 +17,32 @@ const routes = [
   {
     path: '/thoughts',
     name: 'thoughts-all',
-    component: ThoughtsAll
+    component: ThoughtsAll,
+    beforeEnter: guardRoute
   },
   {
     path: '/thoughts/new',
     name: 'thoughts-create',
-    component: ThoughtCreate
+    component: ThoughtCreate,
+    beforeEnter: guardRoute
   },
   {
     path: '/thoughts/:id',
     name: 'thoughts-edit',
-    component: ThoughtEdit
+    component: ThoughtEdit,
+    beforeEnter: guardRoute
   },
   {
     path: '/register',
     name: 'register',
-    component: UserRegister
+    component: UserRegister,
+    beforeEnter: guardRouteOpposite
   },
   {
     path: '/login',
     name: 'login',
-    component: UserLogin
+    component: UserLogin,
+    beforeEnter: guardRouteOpposite
   },
   {
     path: '/:catchAll(.*)',
@@ -48,5 +55,21 @@ const router = createRouter({
   routes,
   linkActiveClass: 'active',
 })
+
+function guardRoute(to, from, next) {
+  if (isLoggedIn) {
+    next();
+  } else {
+    next('/login');
+  }
+}
+
+function guardRouteOpposite(to, from, next) {
+  if (!isLoggedIn) {
+    next();
+  } else {
+    next('/');
+  }
+}
 
 export default router
