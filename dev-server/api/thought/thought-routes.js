@@ -6,7 +6,7 @@ router.post('/thought', (req, res) => {
     res.send('post.thoughts - create a thought');
 });
 
-router.get('/thoughts', (req, res) => {
+router.get('/thought', (req, res) => {
     res.send('get.thoughts - get all thoughts');
 });
 
