@@ -1,26 +1,15 @@
 import express from 'express';
-
+import * as controller from './thought-controller'
 const router = express.Router();
 
-router.post('/thought', (req, res) => {
-    res.send('post.thoughts - create a thought');
-});
+router.post('/thought', controller.create)
 
-router.get('/thought', (req, res) => {
-    res.send('get.thoughts - get all thoughts');
-});
+router.get('/thought', controller.index)
 
-router.get('/thought/:id', (req, res) => {
-    const thoughtId = req.params.id;
-    res.send(`get.thoughts/${thoughtId} - get thought by id`);
-});
+router.get('/thought/:id', controller.show)
 
-router.put('/thought', (req, res) => {
-    res.send('put.thoughts - update a thought');
-});
+router.put('/thought', controller.update)
 
-router.delete('/thought', (req, res) => {
-    res.send('delete.thoughts - delete a thought');
-});
+router.delete('/thought', controller.remove)
 
 export default router;
