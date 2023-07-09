@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.index = index;
 function index(req, res) {
-  return res.json({
+  return res.status(200).json({
     message: 'Hello World'
   });
 }

@@ -25,7 +25,7 @@ function validateIndex(body) {
     errors += 'Please enter a username. ';
   }
   if (_stringUtil.StringUtil.isEmpty(body.password)) {
-    error += 'Please enter a password. ';
+    errors += 'Please enter a password. ';
   }
   return {
     isValid: _stringUtil.StringUtil.isEmpty(errors),

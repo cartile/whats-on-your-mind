@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _express = _interopRequireDefault(require("express"));
-var controller = _interopRequireWildcard(require("./register.controller"));
+var controller = _interopRequireWildcard(require("./register-controller"));
 const router = _express.default.Router();
 router.post('/register', controller.index);
 var _default = router;
