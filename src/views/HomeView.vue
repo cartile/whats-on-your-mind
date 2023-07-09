@@ -12,6 +12,15 @@ export default {
   name: 'HomeView',
   components: {
     MyHome
+  },
+  beforeCreate: function() {
+    console.log('beforeCreate hook triggered');
+    fetch(this.$store.state.apiUrl + '/api/user', {
+      method:'GET'
+    })
+    .then(res => res.json())
+    .then(res=> console.log(res))
+    .catch(error => console.error(error));
   }
 }
 </script>

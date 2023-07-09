@@ -5,6 +5,9 @@ import authRoutes from './api/auth/auth-routes'
 
 function registerRoutes(app) {
   app.use('/api', thoughtRoutes);
+  app.use('/api', regRoutes);
+  app.use('/api', userRoutes);
+  app.use('/api', authRoutes);
 }
 
 export default registerRoutes;

@@ -11,6 +11,9 @@ var _userRoutes = _interopRequireDefault(require("./api/user/user-routes"));
 var _authRoutes = _interopRequireDefault(require("./api/auth/auth-routes"));
 function registerRoutes(app) {
   app.use('/api', _thoughtRoutes.default);
+  app.use('/api', _registerRoutes.default);
+  app.use('/api', _userRoutes.default);
+  app.use('/api', _authRoutes.default);
 }
 var _default = registerRoutes;
 exports.default = _default;
