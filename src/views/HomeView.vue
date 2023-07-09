@@ -18,9 +18,11 @@ export default {
     fetch(this.$store.state.apiUrl + '/api/user', {
       method:'GET'
     })
+    .then(res => console.log(res))
+    /* 
     .then(res => res.json())
     .then(res=> console.log(res))
-    .catch(error => console.error(error));
+    */
   }
 }
 </script>
