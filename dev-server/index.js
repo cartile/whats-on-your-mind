@@ -3,8 +3,10 @@ const app = express()
 const port = 3000
 const registerRoutes = require('./routes').default;
 import { setEnvironment } from './config/env';
+import { connectToDB} from './config/db'
 
 setEnvironment(app);
+connectToDB();
 registerRoutes(app);
 
 app.get('/', (req, res) => {

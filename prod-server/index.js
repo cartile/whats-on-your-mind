@@ -1,11 +1,13 @@
 "use strict";
 
 var _env = require("./config/env");
+var _db = require("./config/db");
 const express = require('express');
 const app = express();
 const port = 3000;
 const registerRoutes = require('./routes').default;
 (0, _env.setEnvironment)(app);
+(0, _db.connectToDB)();
 registerRoutes(app);
 app.get('/', (req, res) => {
   if (process.env.NODE_ENV !== 'production') {
