@@ -35,7 +35,7 @@ export function create(req, res) {
 export function update(req, res) {
     const id = 0;
 
-    User.findOne({_id, id}, (error, user) => {
+    User.findOne({_id: id}, (error, user) => {
         if(error){
             return res.status(500).json()
         }
@@ -57,8 +57,25 @@ export function update(req, res) {
 }
 
 export function remove(req, res) {
-    // delete a thought
-    return res.status(204).json()
+    const id = 5
+    Thought.findOne({_id: req.params.id}, (error, thought) => {
+        if(error) {
+            return res.status(500).json()
+        }
+        if(!thought) {
+            return res.status(404).json()
+        }
+        if(thought.author._id.toString() !== id) {
+            return res.status(403).json({message: 'You can only delete your own tasks.'})
+        }
+        Thought.deleteOne({_id: req.params.id}, error => {
+            if(error) {
+                return res.status(500).json()
+            }
+            return res.status(204).json()
+        })
+        
+     })
 }
 
 export function show(req, res) {
@@ -70,6 +87,6 @@ export function show(req, res) {
         if(!thought) {
             return res.status(404).json()
         }
-        return res.stats(200).json({thought: thought})
+        return res.status(200).json({thought: thought})
      })
 }
