@@ -1,5 +1,6 @@
 "use strict";
 
+var _interopRequireDefault = require("/Users/jeffwang/whats-on-your-mind/node_modules/@babel/runtime/helpers/interopRequireDefault.js").default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -8,23 +9,81 @@ exports.index = index;
 exports.remove = remove;
 exports.show = show;
 exports.update = update;
+var _userModel = _interopRequireDefault(require("../../model/user-model"));
+var _thoughtModel = _interopRequireDefault(require("../../model/thought-model"));
+var _compilerCore = require("@vue/compiler-core");
+var _shared = require("@vue/shared");
 function index(req, res) {
-  //find all tasks
-  return res.status(200).json();
+  //find all thoughts
+  _thoughtModel.default.find({}, (error, thoughts) => {
+    if (error) {
+      return res.status(500).json();
+    }
+    return res.status(200).json({
+      thoughts: thoughts
+    });
+  }).populate('author', 'username', 'user');
 }
 function create(req, res) {
-  // create task
-  return res.status(201).json();
+  // create thought
+  const id = 0;
+  _userModel.default.findOne({
+    _id: id
+  }, (error, user) => {
+    if (error) {
+      return res.status(500).json();
+    }
+    const thought = new _thoughtModel.default(req.body.thought);
+    thought.author = user._id;
+    thought.save(error => {
+      if (error) {
+        return res.status(500).json();
+      }
+      return res.status(204).json();
+    });
+  });
 }
 function update(req, res) {
-  //update task
-  return res.status(204).json();
+  const id = 0;
+  _userModel.default.findOne({
+    _id,
+    id
+  }, (error, user) => {
+    if (error) {
+      return res.status(500).json();
+    }
+    if (!user) {
+      return res.status(404).json();
+    }
+    const thought = req.body.thought;
+    thought.author = user._id;
+    _thoughtModel.default.findByIdAndUpdate({
+      _id: thought._id
+    }, thought, error => {
+      if (error) {
+        return res.status(500).json();
+      }
+      return res.status(204).json();
+    });
+  });
 }
 function remove(req, res) {
-  // delete a task
+  // delete a thought
   return res.status(204).json();
 }
 function show(req, res) {
-  // get task via id
-  return res.status(200).json();
+  // get thought via id
+  _thoughtModel.default.findOne({
+    _id: req.params.id
+  }, (error, thought) => {
+    if (error) {
+      return res.status(500).json();
+    }
+    if (!thought) {
+      return res.status(404).json();
+    }
+    return res.stats(200).json({
+      thought: thought
+    });
+  });
 }
