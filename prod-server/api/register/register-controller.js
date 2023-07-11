@@ -1,10 +1,12 @@
 "use strict";
 
+var _interopRequireDefault = require("/Users/jeffwang/whats-on-your-mind/node_modules/@babel/runtime/helpers/interopRequireDefault.js").default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.index = index;
 var _stringUtil = require("../../utilities/string-util");
+var _userModel = _interopRequireDefault(require("../../model/user-model"));
 function index(req, res) {
   const validation = validateIndex(req.body);
   if (!validation.isValid) {
@@ -12,12 +14,21 @@ function index(req, res) {
       message: validation.message
     });
   }
-  const user = {
+  const user = new _userModel.default({
     username: req.body.username.toLowerCase(),
     password: req.body.password
-  };
-  console.log(user);
-  return res.json();
+  });
+  user.save(error => {
+    if (error) {
+      if (error.code === 11000) {
+        return res.status(403).json({
+          message: 'Username is already taken.'
+        });
+      }
+      return res.status(500).json();
+    }
+    return res.status(201).json();
+  });
 }
 function validateIndex(body) {
   let errors = '';

@@ -1,11 +1,31 @@
 import { StringUtil } from '../../utilities/string-util'
+import User from '../../model/user-model'
 
 export function index(req, res) {
+    // login method basically
     const validation = validateIndex(req.body) 
     if(!validation.isValid) {
         return res.json({message: validation.message})
     }
-    return res.json()
+    User.findOne({username: req.body.username.toLowerCase()},
+    (error, user) => {
+        if(error) {
+            return res.status(500).json()
+        }
+        if(!user){
+            return res.status(401).json()
+        }
+
+        const passwordsMatch = true;
+        if(!passwordsMatch) {
+            return res.status(401).json();
+        }
+        return res.status(200).json()
+    })
+
+ 
+
+    
 }
 
 function validateIndex(body) {
