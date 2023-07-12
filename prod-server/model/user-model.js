@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
 var _stringUtil = require("../utilities/string-util");
+var _bcryptNodejs = _interopRequireDefault(require("bcrypt-nodejs"));
 const userSchema = new _mongoose.default.Schema({
   username: String,
   first: String,
@@ -23,6 +24,8 @@ userSchema.pre('save', function (next) {
   this.username = this.username.toLowerCase();
   this.first = this.first.toLowerCase();
   this.last = this.last.toLowerCase();
+  const plainPassword = this.password;
+  this.password = _bcryptNodejs.default.hashSync(plainPassword);
   next();
 });
 var _default = _mongoose.default.model('user', userSchema);
