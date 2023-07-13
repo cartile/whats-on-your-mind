@@ -11,11 +11,13 @@ export async function index(req, res) {
     try {
         const user = await User.findOne({ username: req.body.username.toLowerCase() }).exec()
         if (!user) {
-        return res.status(401).json()
+            console.log("user doesnt exist")
+            return res.status(401).json()
         }
 
         const passwordsMatch = User.passwordMatches(req.body.password, user.password)
         if (!passwordsMatch) {
+            console.log("passwords dont match")
             return res.status(401).json()
         }
         const token = generateJWT(user)

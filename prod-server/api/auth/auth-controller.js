@@ -21,10 +21,12 @@ async function index(req, res) {
       username: req.body.username.toLowerCase()
     }).exec();
     if (!user) {
+      console.log("user doesnt exist");
       return res.status(401).json();
     }
     const passwordsMatch = _userModel.default.passwordMatches(req.body.password, user.password);
     if (!passwordsMatch) {
+      console.log("passwords dont match");
       return res.status(401).json();
     }
     const token = (0, _authService.generateJWT)(user);
