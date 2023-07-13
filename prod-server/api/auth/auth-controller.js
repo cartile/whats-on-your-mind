@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.index = index;
 var _stringUtil = require("../../utilities/string-util");
 var _userModel = _interopRequireDefault(require("../../model/user-model"));
-function index(req, res) {
+async function index(req, res) {
   // login method basically
   const validation = validateIndex(req.body);
   if (!validation.isValid) {
@@ -15,21 +15,22 @@ function index(req, res) {
       message: validation.message
     });
   }
-  _userModel.default.findOne({
-    username: req.body.username.toLowerCase()
-  }, (error, user) => {
-    if (error) {
-      return res.status(500).json();
-    }
+  try {
+    const user = await _userModel.default.findOne({
+      username: req.body.username.toLowerCase()
+    }).exec();
     if (!user) {
       return res.status(401).json();
     }
-    const passwordsMatch = _userModel.default.passwordsMatch(req.body.password, user.password);
+    const passwordsMatch = _userModel.default.passwordMatches(req.body.password, user.password);
     if (!passwordsMatch) {
       return res.status(401).json();
     }
     return res.status(200).json();
-  });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json();
+  }
 }
 function validateIndex(body) {
   let errors = '';

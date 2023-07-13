@@ -1,4 +1,5 @@
 import store from '../store'
+import { http } from './HttpService'
 
 export function isLoggedIn() {
     const token = localStorage.getItem('token')
@@ -10,11 +11,16 @@ function setToken(token) {
     store.dispatch('authenticate')
 }
 
-export function login() {
-    const token = {
-        username: 'jeff'
-    }
-    setToken(token);
+export function login(user) {
+    return http().post('/auth', user)
+    .then(res => {
+        if(res){
+            const fakeToken = {
+                token: 'my-token'
+            }
+            setToken(fakeToken)
+        }
+    })
 }
 
 export function getUsername() {
@@ -23,4 +29,8 @@ export function getUsername() {
 
 export function getUserId() {
     return 0
+}
+
+export function registerUser(user) {
+    return http().post('/register', user)
 }
