@@ -16,7 +16,7 @@ export function index(req, res) {
             return res.status(401).json()
         }
 
-        const passwordsMatch = true;
+        const passwordsMatch = User.passwordsMatch(req.body.password, user.password)
         if(!passwordsMatch) {
             return res.status(401).json();
         }

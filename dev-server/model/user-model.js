@@ -14,6 +14,9 @@ userSchema.virtual('fullName').get(function(){
     const last = StringUtil.capitalize(this.last.toLowerCase())
     return `${first} ${last}`
 })
+userSchema.statics.passwordMatches = function(password, hashed){
+    return bcrypt.compareSync(password, hashed)
+}
 userSchema.pre(
     'save',
     function(next) {
