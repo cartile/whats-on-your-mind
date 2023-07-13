@@ -15,6 +15,7 @@ export function login(user) {
     return http().post('/auth', user)
     .then(res => {
         if(res){
+            console.log(res)
             const fakeToken = {
                 token: 'my-token'
             }

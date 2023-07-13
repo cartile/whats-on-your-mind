@@ -15,7 +15,7 @@ export default {
   },
   beforeCreate: function() {
     console.log('beforeCreate hook triggered');
-    fetch(this.$store.state.apiUrl + '/api/user', {
+    fetch(this.$store.state.apiUrl + '/user', {
       method:'GET'
     })
     .then(res => console.log(res))

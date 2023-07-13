@@ -1,5 +1,6 @@
 import { StringUtil } from '../../utilities/string-util'
 import User from '../../model/user-model'
+import  { generateJWT } from '../../services/auth-service'
 
 export async function index(req, res) {
     // login method basically
@@ -15,10 +16,10 @@ export async function index(req, res) {
 
         const passwordsMatch = User.passwordMatches(req.body.password, user.password)
         if (!passwordsMatch) {
-        return res.status(401).json()
+            return res.status(401).json()
         }
-
-        return res.status(200).json()
+        const token = generateJWT(user)
+        return res.status(200).json({token: token})
     } catch (error) {
         console.log(error)
         return res.status(500).json()
