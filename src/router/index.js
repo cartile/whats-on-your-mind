@@ -5,8 +5,7 @@ import UserRegister from '../views/authentication/UserRegister.vue'
 import ThoughtCreate from '../views/thoughts/ThoughtCreate.vue'
 import ThoughtsAll from '../views/thoughts/ThoughtsAll.vue'
 import ThoughtEdit from '../views/thoughts/ThoughtEdit.vue'
-
-const isLoggedIn = false;
+import * as auth from '../services/AuthService'
 
 const routes = [
   {
@@ -57,7 +56,7 @@ const router = createRouter({
 })
 
 function guardRoute(to, from, next) {
-  if (isLoggedIn) {
+  if (auth.isLoggedIn()) {
     next();
   } else {
     next('/login');
@@ -65,7 +64,7 @@ function guardRoute(to, from, next) {
 }
 
 function guardRouteOpposite(to, from, next) {
-  if (!isLoggedIn) {
+  if (!auth.isLoggedIn()) {
     next();
   } else {
     next('/');

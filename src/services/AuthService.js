@@ -6,8 +6,12 @@ export function isLoggedIn() {
     return token != null
 }
 
+export function logout() {
+    localStorage.clear()
+    store.dispatch('authenticate')
+}
 function setToken(token) {
-    localStorage.setItem('token', JSON.stringify(token))
+    localStorage.setItem('token', token)
     store.dispatch('authenticate')
 }
 
