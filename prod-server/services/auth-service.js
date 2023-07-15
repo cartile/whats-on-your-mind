@@ -4,7 +4,9 @@ var _interopRequireDefault = require("/Users/jeffwang/whats-on-your-mind/node_mo
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.decodeToken = decodeToken;
 exports.generateJWT = generateJWT;
+exports.requireLogin = requireLogin;
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 function generateJWT(user) {
   const tokenData = {
@@ -14,4 +16,23 @@ function generateJWT(user) {
   return _jsonwebtoken.default.sign({
     user: tokenData
   }, process.env.TOKEN_SECRET);
+}
+function requireLogin(req, res, next) {
+  const token = decodeToken(req);
+  if (!token) {
+    return res.status(401).json({
+      message: 'You must be logged in.'
+    });
+  }
+}
+function decodeToken(req) {
+  const token = req.headers.authorization || req.headers['authorization'];
+  if (!token) {
+    return null;
+  }
+  try {
+    return _jsonwebtoken.default.verify(token, process.env.TOKEN_SECRET);
+  } catch (error) {
+    return null;
+  }
 }
