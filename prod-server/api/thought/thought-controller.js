@@ -13,67 +13,62 @@ var _userModel = _interopRequireDefault(require("../../model/user-model"));
 var _thoughtModel = _interopRequireDefault(require("../../model/thought-model"));
 var _compilerCore = require("@vue/compiler-core");
 var _shared = require("@vue/shared");
-function index(req, res) {
+async function index(req, res) {
   //find all thoughts
-  _thoughtModel.default.find({}, (error, thoughts) => {
-    if (error) {
-      return res.status(500).json();
-    }
+  try {
+    const thoughts = await _thoughtModel.default.find().populate('author', 'username', 'user');
     return res.status(200).json({
       thoughts: thoughts
     });
-  }).populate('author', 'username', 'user');
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json();
+  }
 }
-function create(req, res) {
+async function create(req, res) {
   // create thought
-  const id = 0;
-  _userModel.default.findOne({
-    _id: id
-  }, (error, user) => {
-    if (error) {
+  try {
+    const id = 0;
+    const user = await _userModel.default.findOne({
+      _id: id
+    }).exec();
+    if (!user) {
       return res.status(500).json();
     }
     const thought = new _thoughtModel.default(req.body.thought);
     thought.author = user._id;
-    thought.save(error => {
-      if (error) {
-        return res.status(500).json();
-      }
-      return res.status(204).json();
-    });
-  });
+    await thought.save();
+    return res.status(204).json();
+  } catch (error) {
+    return res.status(500).json();
+  }
 }
-function update(req, res) {
-  const id = 0;
-  _userModel.default.findOne({
-    _id: id
-  }, (error, user) => {
-    if (error) {
-      return res.status(500).json();
-    }
+async function update(req, res) {
+  try {
+    const id = 0;
+    const user = await _userModel.default.findOne({
+      _id: id
+    }).exec();
     if (!user) {
       return res.status(404).json();
     }
     const thought = req.body.thought;
     thought.author = user._id;
-    _thoughtModel.default.findByIdAndUpdate({
+    await _thoughtModel.default.findByIdAndUpdate({
       _id: thought._id
-    }, thought, error => {
-      if (error) {
-        return res.status(500).json();
-      }
-      return res.status(204).json();
-    });
-  });
+    }, thought).exec();
+    return res.status(204).json();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json();
+  }
 }
-function remove(req, res) {
-  const id = 5;
-  _thoughtModel.default.findOne({
-    _id: req.params.id
-  }, (error, thought) => {
-    if (error) {
-      return res.status(500).json();
-    }
+async function remove(req, res) {
+  try {
+    const id = 5;
+    const thought = await _thoughtModel.default.findOne({
+      _id: req.params.id
+    }).exec();
     if (!thought) {
       return res.status(404).json();
     }
@@ -82,29 +77,29 @@ function remove(req, res) {
         message: 'You can only delete your own tasks.'
       });
     }
-    _thoughtModel.default.deleteOne({
+    await _thoughtModel.default.deleteOne({
       _id: req.params.id
-    }, error => {
-      if (error) {
-        return res.status(500).json();
-      }
-      return res.status(204).json();
-    });
-  });
+    }).exec();
+    return res.status(204).json();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json();
+  }
 }
-function show(req, res) {
+async function show(req, res) {
   // get thought via id
-  _thoughtModel.default.findOne({
-    _id: req.params.id
-  }, (error, thought) => {
-    if (error) {
-      return res.status(500).json();
-    }
+  try {
+    const thought = await _thoughtModel.default.findOne({
+      _id: req.params.id
+    });
     if (!thought) {
       return res.status(404).json();
     }
     return res.status(200).json({
       thought: thought
     });
-  });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json();
+  }
 }
