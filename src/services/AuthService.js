@@ -24,6 +24,10 @@ export function login(user) {
     })
 }
 
+export function getToken() {
+    return localStorage.getItem('token')
+}
+
 export function getUsername() {
     return 'jeff'
 }
