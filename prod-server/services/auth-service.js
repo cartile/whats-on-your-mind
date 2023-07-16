@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.decodeToken = decodeToken;
 exports.generateJWT = generateJWT;
+exports.getUserId = getUserId;
+exports.getUsername = getUsername;
 exports.requireLogin = requireLogin;
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 function generateJWT(user) {
@@ -35,4 +37,18 @@ function decodeToken(req) {
   } catch (error) {
     return null;
   }
+}
+function getUsername(req) {
+  const token = decodeToken(req);
+  if (!token) {
+    return null;
+  }
+  return token.user.username;
+}
+function getUserId(req) {
+  const token = decodeToken(req);
+  if (!token) {
+    return null;
+  }
+  return token.user.id;
 }

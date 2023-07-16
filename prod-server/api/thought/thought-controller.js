@@ -1,5 +1,6 @@
 "use strict";
 
+var _interopRequireWildcard = require("/Users/jeffwang/whats-on-your-mind/node_modules/@babel/runtime/helpers/interopRequireWildcard.js").default;
 var _interopRequireDefault = require("/Users/jeffwang/whats-on-your-mind/node_modules/@babel/runtime/helpers/interopRequireDefault.js").default;
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -13,6 +14,7 @@ var _userModel = _interopRequireDefault(require("../../model/user-model"));
 var _thoughtModel = _interopRequireDefault(require("../../model/thought-model"));
 var _compilerCore = require("@vue/compiler-core");
 var _shared = require("@vue/shared");
+var auth = _interopRequireWildcard(require("../../services/auth-service"));
 async function index(req, res) {
   //find all thoughts
   try {
@@ -28,7 +30,7 @@ async function index(req, res) {
 async function create(req, res) {
   // create thought
   try {
-    const id = 0;
+    const id = auth.getUserId(req);
     const user = await _userModel.default.findOne({
       _id: id
     }).exec();
@@ -45,7 +47,7 @@ async function create(req, res) {
 }
 async function update(req, res) {
   try {
-    const id = 0;
+    const id = auth.getUserId(req);
     const user = await _userModel.default.findOne({
       _id: id
     }).exec();
@@ -65,7 +67,7 @@ async function update(req, res) {
 }
 async function remove(req, res) {
   try {
-    const id = 5;
+    const id = auth.getUserId(req);
     const thought = await _thoughtModel.default.findOne({
       _id: req.params.id
     }).exec();

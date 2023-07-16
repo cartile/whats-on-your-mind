@@ -2,6 +2,7 @@ import User from '../../model/user-model'
 import Thought from '../../model/thought-model'
 import { trackSlotScopes } from '@vue/compiler-core'
 import { looseEqual } from '@vue/shared'
+import * as auth from '../../services/auth-service'
 
 export async function index(req, res) {
     //find all thoughts
@@ -17,7 +18,7 @@ export async function index(req, res) {
 export async function create(req, res) {
     // create thought
     try {
-        const id = 0;
+        const id = auth.getUserId(req)
         const user = await User.findOne({ _id: id}).exec()
         if(!user){
             return res.status(500).json()
@@ -34,7 +35,7 @@ export async function create(req, res) {
 
 export async function update(req, res) {
     try {
-        const id = 0
+        const id = auth.getUserId(req)
         const user = await User.findOne({ _id: id}).exec()
         if(!user) {
             return res.status(404).json()
@@ -52,7 +53,7 @@ export async function update(req, res) {
 
 export async function remove(req, res) {
     try {
-        const id = 5
+        const id = auth.getUserId(req)
         const thought = await Thought.findOne({_id: req.params.id}).exec()
         if(!thought) {
             return res.status(404).json()

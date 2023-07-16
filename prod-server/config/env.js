@@ -18,7 +18,6 @@ function setEnvironment(app) {
 }
 function setDevEnv(app) {
   process.env.NODE_ENV = 'development';
-  process.env.TOKEN_SECRET = 'temporary'
   process.env.MONGO_URI = 'mongodb://localhost:27017/vue-db';
   app.use(_bodyParser.default.json());
   app.use((0, _morgan.default)('dev'));
