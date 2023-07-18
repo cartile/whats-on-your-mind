@@ -8,11 +8,11 @@
     "dev": "concurrently \"export NODE_ENV=development\" \"babel dev-server --out-dir prod-server --watch\" \"nodemon prod-server/index.js \" \"npm run serve\" "
   },
   "dependencies": {
+    "@vue/compat": "^3.3.4",
     "axios": "^1.4.0",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.0",
-    "bootstrap-vue": "^2.23.1",
     "concurrently": "^8.2.0",
     "core-js": "^3.8.3",
     "jquery": "^3.7.0",

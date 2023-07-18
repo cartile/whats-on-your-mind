@@ -8,7 +8,7 @@
           </div>
           <div class="form-group">
               <label for="body">Body</label>
-              <textarea v-model="thought.body" name="body" id="body" cols="30" rows="10"></textarea>
+              <textarea v-model="thought.body" name="body" id="body" class="form-control" cols="30" rows="10"></textarea>
           </div>
           <div class="form-group">
               <button type="submit" class="btn btn-secondary">Submit</button>
@@ -25,7 +25,7 @@
       name: 'thoughts-create',
       data() {
           return {
-              task: {
+              thought: {
                 title: '',
                 body: ''
               }
