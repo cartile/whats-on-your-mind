@@ -18,34 +18,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
 
   import * as thoughtService from '../../services/ThoughtService'
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
 
-
-  export default {
-      name: 'thoughts-create',
-      setup() {
-        const thought = ref({
+  const thought = ref({
             title: '',
             body: ''
         })
-
         const router = useRouter()
 
-        const onSubmit = async () => {
-            const request = {
-                thought: thought.value
-            }
-            await thoughtService.createThought(request)
-            await router.push({ name: 'thoughts-all'})
+    const onSubmit = async () => {
+        const request = {
+            thought: thought.value
         }
-        return {
-            thought,
-            onSubmit,
-        }
-      }
-  }
+        await thoughtService.createThought(request)
+        await router.push({ name: 'thoughts-all'})
+
+    }
+  
 </script>
