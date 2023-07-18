@@ -15,6 +15,7 @@ export function requireLogin(req, res, next) {
             message: 'You must be logged in.'
         })
     }
+    next()
 }
 
 export function decodeToken(req) {

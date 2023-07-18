@@ -26,6 +26,7 @@ function requireLogin(req, res, next) {
       message: 'You must be logged in.'
     });
   }
+  next();
 }
 function decodeToken(req) {
   const token = req.headers.authorization || req.headers['authorization'];
