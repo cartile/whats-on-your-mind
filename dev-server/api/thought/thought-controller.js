@@ -59,7 +59,7 @@ export async function remove(req, res) {
             return res.status(404).json()
         }
         if(thought.author._id.toString() !== id) {
-            return res.status(403).json({message: 'You can only delete your own tasks.'})
+            return res.status(403).json({message: 'You can only delete your own thoughts.'})
         }
         await Thought.deleteOne({_id: req.params.id}).exec()
         return res.status(204).json()

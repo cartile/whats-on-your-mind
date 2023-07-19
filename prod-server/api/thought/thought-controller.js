@@ -76,7 +76,7 @@ async function remove(req, res) {
     }
     if (thought.author._id.toString() !== id) {
       return res.status(403).json({
-        message: 'You can only delete your own tasks.'
+        message: 'You can only delete your own thoughts.'
       });
     }
     await _thoughtModel.default.deleteOne({

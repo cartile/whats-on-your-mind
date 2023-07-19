@@ -22,7 +22,7 @@ const routes = [
       thoughtService.getAllThoughts()
       .then((res) => {
         next(vm => {
-          vm.tasks = res.data.tasks
+          vm.thoughts = res.data.thoughts
         })
       })
     }
