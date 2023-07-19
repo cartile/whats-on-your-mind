@@ -15,17 +15,14 @@
     color="#26c6da"
     theme="dark"
     max-width="400"
-    prepend-icon="mdi-twitter"
-    title="{{thought.title}}"
+    title=""
   >
-    
+  <v-card-title>food for thought</v-card-title>
+  <v-card-subtitle>currentDate</v-card-subtitle>
 
-    <template v-slot:prepend>
-      <v-icon size="x-large"></v-icon>
-    </template>
 
     <v-card-text class="text-h5 py-2">
-      "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well."
+      why do baby clothes have pockets they don't even own shit
     </v-card-text>
 
     <v-card-actions>
