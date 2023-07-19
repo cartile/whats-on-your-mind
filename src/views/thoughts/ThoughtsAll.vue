@@ -1,12 +1,17 @@
 <template>
-  <div>
+  <div class="mb-4">
     <h1>all thoughts</h1>
-    <router-link to="/thoughts/new" class="btn btn-success ml-2">Create Task</router-link>
+    <router-link to="/thoughts/new" class="btn btn-success ml-2">
+      Create Thought
+    </router-link>
   </div>
 </template>
 
-<script>
-export default {
-  // Component options go here
-}
+<script setup>
+  //import { ref } from 'vue'
+  //const thoughts = ref(null);
+  //const currentThoughtId = ref(null);
 </script>
+
+
+

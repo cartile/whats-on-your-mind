@@ -6,6 +6,7 @@ import ThoughtCreate from '../views/thoughts/ThoughtCreate.vue'
 import ThoughtsAll from '../views/thoughts/ThoughtsAll.vue'
 import ThoughtEdit from '../views/thoughts/ThoughtEdit.vue'
 import * as auth from '../services/AuthService'
+import * as thoughtService from '../services/ThoughtService'
 
 const routes = [
   {
@@ -17,7 +18,14 @@ const routes = [
     path: '/thoughts',
     name: 'thoughts-all',
     component: ThoughtsAll,
-    beforeEnter: guardRoute
+    beforeEnter: (to, from, next) => {
+      thoughtService.getAllThoughts()
+      .then((res) => {
+        next(vm => {
+          vm.tasks = res.data.tasks
+        })
+      })
+    }
   },
   {
     path: '/thoughts/new',

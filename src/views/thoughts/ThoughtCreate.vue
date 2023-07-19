@@ -31,11 +31,12 @@
         const router = useRouter()
 
     const onSubmit = async () => {
-        const request = {
-            thought: thought.value
-        }
-        await thoughtService.createThought(request)
-        await router.push({ name: 'thoughts-all'})
+
+    const request = {
+        thought: thought.value
+    }
+    await thoughtService.createThought(request)
+    await router.push({ name: 'thoughts-all'})
 
     }
   
