@@ -13,6 +13,10 @@ const thoughtSchema = new _mongoose.default.Schema({
     type: Number,
     default: 0
   },
+  shares: {
+    type: Number,
+    default: 0
+  },
   author: {
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: 'user'
