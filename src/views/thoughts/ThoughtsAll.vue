@@ -9,7 +9,7 @@
     </div>
     <div class="d-flex flex-wrap justify-content-between" v-if="this.$route.meta.thoughts && this.$route.meta.thoughts.length > 0">
       <v-card
-        v-for="thought in this.$route.meta.thoughts"
+        v-for="(thought, index) in this.$route.meta.thoughts"
         :key="thought._id"
         class="mx-auto mb-2 ml-2"
         color="#26c6da"
@@ -50,11 +50,16 @@
       </v-list-item>
       </div>
           <div class="d-flex" style="position: absolute; right: 20px;" >
-            <v-icon class="me-1" icon="mdi-heart"></v-icon>
-            <span class="subheading me-2">{{thought.likes}}</span>
-            <span class="me-1">·</span>
+            <div @click="handleClick(index)" style="display: flex; align-items: center; cursor: pointer;">
+              <v-icon 
+              class="me-1" 
+              :style="{ color: isClickedList[index] ? 'red' : '' }" 
+              icon="mdi-heart" />
+            <span class="subheading me-2" style="user-select: none;">{{thought.likes}}</span>
+            </div>
+            <span class="me-1" style="user-select: none;">·</span>
             <v-icon class="me-1" icon="mdi-share-variant"></v-icon>
-            <span class="subheading">{{thought.shares}}</span>
+            <span class="subheading" style="user-select: none;">{{thought.shares}}</span>
           </div>
           </v-card-actions>
         </div>
@@ -64,15 +69,18 @@
 </template>
 
 <script>
-
   export default {
     name: 'thoughts-all',
-    data: function() {
+    data() {
       return {
+        isClickedList:[],
         currentThoughtId: null
       }
     },
     methods: {
+      handleClick(index) {
+        this.isClickedList[index] = !this.isClickedList[index]
+      },
       isUpdated(thought) {
       // Check if updatedAt exists and is different from createdAt
       //console.log(thought.updatedAt && thought.updatedAt !== thought.createdAt)
@@ -105,6 +113,9 @@
         return `on ${formattedDate}`
       },
     },
+    created() {
+  this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
+  }
 }
 </script>
 
