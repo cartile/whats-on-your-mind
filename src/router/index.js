@@ -21,9 +21,11 @@ const routes = [
     beforeEnter: (to, from, next) => {
       thoughtService.getAllThoughts()
       .then((res) => {
-        next(vm => {
-          vm.thoughts = res.data.thoughts
-        })
+        //console.log(res.data.thoughts)
+        //console.log(Object.keys(res.data.thoughts[0]))
+        //console.log(res.data.thoughts[0].author);
+        to.meta.thoughts = res.data.thoughts;
+        next()
       })
     }
   },
