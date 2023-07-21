@@ -45,6 +45,14 @@ export function getUserId() {
     return token.user.id
 }
 
+export function getUser() {
+    const token = decodeToken()
+    if (!token){
+        return null
+    }
+    return token.user
+}
+
 export function registerUser(user) {
     return http().post('/register', user)
 }

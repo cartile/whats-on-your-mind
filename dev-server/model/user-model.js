@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
     username: String,
     first: String,
     last: String, 
-    password: String
+    password: String,
+    likedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Thought' }]
 })
 userSchema.set('timestamps', true)
 userSchema.virtual('fullName').get(function(){

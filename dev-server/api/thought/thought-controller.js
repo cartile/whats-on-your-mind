@@ -1,7 +1,5 @@
 import User from '../../model/user-model'
 import Thought from '../../model/thought-model'
-import { trackSlotScopes } from '@vue/compiler-core'
-import { looseEqual } from '@vue/shared'
 import * as auth from '../../services/auth-service'
 
 export async function index(req, res) {
@@ -35,7 +33,7 @@ export async function create(req, res) {
 
 export async function update(req, res) {
     try {
-        const id = auth.getUserId(req)
+        const userId = auth.getUserId(req)
         const user = await User.findOne({ _id: id}).exec()
         if(!user) {
             return res.status(404).json()
@@ -80,5 +78,47 @@ export async function show(req, res) {
     } catch (error) {
         console.log(error)
         return res.status(500).json()
+    }
+}
+
+export async function updateLikes(req, res) {
+    // get thought via id
+    try {
+        const userId = auth.getUserId(req);
+        const user = await User.findOne({ _id: userId }).exec();
+        
+        const { likes } = req.body
+        const thoughtId = req.params.id
+        const thought = await Thought.findOne({_id: req.params.id})
+        
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if(!thought) {
+            return res.status(404).json()
+        }
+
+        thought.likes = likes
+        await thought.save()
+        console.log(user.likedPosts)
+        const isLiked = user.likedPosts.includes(thoughtId)
+        if (!isLiked) {
+            //thought ID is not in the likedPosts array, add it
+            user.likedPosts.push(thoughtId)
+        } else {
+            // If the thought has no likes and the thought ID is in the likedPosts array, remove it
+            // thought ID is in the likedPosts array, remove it
+            const indexOfThought = user.likedPosts.indexOf(thoughtId);
+            if (indexOfThought !== -1) {
+                user.likedPosts.splice(indexOfThought, 1);
+            }
+        }
+        await user.save(); // Save the user to update the likedPosts array
+
+        return res.status(204).json()
+    } catch (error) {
+        console.error('Error updating likes:', error);
+        return res.status(500).json({ error: 'Something went wrong.' });
     }
 }

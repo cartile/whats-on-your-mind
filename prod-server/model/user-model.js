@@ -12,7 +12,11 @@ const userSchema = new _mongoose.default.Schema({
   username: String,
   first: String,
   last: String,
-  password: String
+  password: String,
+  likedPosts: [{
+    type: _mongoose.default.Schema.Types.ObjectId,
+    ref: 'Thought'
+  }]
 });
 userSchema.set('timestamps', true);
 userSchema.virtual('fullName').get(function () {

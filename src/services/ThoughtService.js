@@ -23,3 +23,8 @@ export function deleteThought(id) {
 export function updateThought(thought) {
     return http().put('/thought', thought)
 }
+
+export function updateThoughtLikes(id, likes) {
+    return http().put(`/thought/${id}/likes`, { likes });
+}
+  

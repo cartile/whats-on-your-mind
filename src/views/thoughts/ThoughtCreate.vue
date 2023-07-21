@@ -24,20 +24,18 @@
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
 
-  const thought = ref({
+    const thought = ref({
             title: '',
             body: ''
         })
-        const router = useRouter()
+    const router = useRouter()
 
     const onSubmit = async () => {
-
-    const request = {
-        thought: thought.value
-    }
-    await thoughtService.createThought(request)
-    await router.push({ name: 'thoughts-all'})
-
+        const request = {
+            thought: thought.value
+        }
+        await thoughtService.createThought(request)
+        await router.push({ name: 'thoughts-all'})
     }
   
 </script>

@@ -10,10 +10,10 @@ exports.index = index;
 exports.remove = remove;
 exports.show = show;
 exports.update = update;
+exports.updateLikes = updateLikes;
+require("core-js/modules/es.array.push.js");
 var _userModel = _interopRequireDefault(require("../../model/user-model"));
 var _thoughtModel = _interopRequireDefault(require("../../model/thought-model"));
-var _compilerCore = require("@vue/compiler-core");
-var _shared = require("@vue/shared");
 var auth = _interopRequireWildcard(require("../../services/auth-service"));
 async function index(req, res) {
   //find all thoughts
@@ -47,7 +47,7 @@ async function create(req, res) {
 }
 async function update(req, res) {
   try {
-    const id = auth.getUserId(req);
+    const userId = auth.getUserId(req);
     const user = await _userModel.default.findOne({
       _id: id
     }).exec();
@@ -103,5 +103,52 @@ async function show(req, res) {
   } catch (error) {
     console.log(error);
     return res.status(500).json();
+  }
+}
+async function updateLikes(req, res) {
+  // get thought via id
+  try {
+    const userId = auth.getUserId(req);
+    const user = await _userModel.default.findOne({
+      _id: userId
+    }).exec();
+    const {
+      likes
+    } = req.body;
+    const thoughtId = req.params.id;
+    const thought = await _thoughtModel.default.findOne({
+      _id: req.params.id
+    });
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found'
+      });
+    }
+    if (!thought) {
+      return res.status(404).json();
+    }
+    thought.likes = likes;
+    await thought.save();
+    console.log(user.likedPosts);
+    const isLiked = user.likedPosts.includes(thoughtId);
+    if (!isLiked) {
+      //thought ID is not in the likedPosts array, add it
+      user.likedPosts.push(thoughtId);
+    } else {
+      // If the thought has no likes and the thought ID is in the likedPosts array, remove it
+      // thought ID is in the likedPosts array, remove it
+      const indexOfThought = user.likedPosts.indexOf(thoughtId);
+      if (indexOfThought !== -1) {
+        user.likedPosts.splice(indexOfThought, 1);
+      }
+    }
+    await user.save(); // Save the user to update the likedPosts array
+
+    return res.status(204).json();
+  } catch (error) {
+    console.error('Error updating likes:', error);
+    return res.status(500).json({
+      error: 'Something went wrong.'
+    });
   }
 }
