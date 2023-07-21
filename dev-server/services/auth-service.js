@@ -3,7 +3,8 @@ import jwt from 'jsonwebtoken'
 export function generateJWT(user){
     const tokenData = {
         username: user.username, 
-        id: user._id
+        id: user._id,
+        likedPosts: likedPosts
     }
     return jwt.sign({ user: tokenData}, process.env.TOKEN_SECRET)
 }
