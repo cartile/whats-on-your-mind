@@ -69,6 +69,10 @@
 </template>
 
 <script>
+  import * as thoughtService from '../../services/ThoughtService'
+  import * as authService from '../../services/AuthService';
+
+
   export default {
     name: 'thoughts-all',
     data() {
@@ -77,9 +81,22 @@
         currentThoughtId: null
       }
     },
+    computed: {
+      myUser () {
+        return authService.getUser()
+      }
+    },
     methods: {
-      handleClick(index) {
+      async handleClick(index) {
+        // true means liked 
         this.isClickedList[index] = !this.isClickedList[index]
+        if (this.isClickedList[index]) {
+          this.$route.meta.thoughts[index].likes += 1 //like
+        } else {
+          this.$route.meta.thoughts[index].likes -= 1 //unliked
+        }
+        const thought = this.$route.meta.thoughts[index]
+        await thoughtService.updateThoughtLikes(thought._id, thought.likes)
       },
       isUpdated(thought) {
       // Check if updatedAt exists and is different from createdAt
@@ -115,7 +132,9 @@
     },
     created() {
   this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
-  }
+  //console.log(Object.keys(this.$store.state))
+  console.log(Object.keys(this.myUser)) // ONLY USERNAME AND ID, FIGURE OUT HOW TO GET LIKEDPOSTS HERE
+}
 }
 </script>
 
