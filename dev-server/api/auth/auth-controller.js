@@ -14,7 +14,6 @@ export async function index(req, res) {
             console.log("user doesnt exist")
             return res.status(401).json()
         }
-
         const passwordsMatch = User.passwordMatches(req.body.password, user.password)
         if (!passwordsMatch) {
             console.log("passwords dont match")

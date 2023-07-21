@@ -47,11 +47,17 @@
                     first: this.first,
                     last: this.last
                 }
-                const registerPromise = auth.registerUser(user)
-                const loginPromise = auth.login(user)
-                await Promise.all([registerPromise, loginPromise])
-                this.$router.push({name: 'home'})
-            }
+                try {
+                    await auth.registerUser(user)
+                    await auth.login(user);
+
+                    this.$router.push({name: 'home'})
+                } catch (error) {
+                    console.log(error)
+                }
         }
+        
     }
+}
+
 </script>

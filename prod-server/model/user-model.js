@@ -9,7 +9,10 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 var _stringUtil = require("../utilities/string-util");
 var _bcryptNodejs = _interopRequireDefault(require("bcrypt-nodejs"));
 const userSchema = new _mongoose.default.Schema({
-  username: String,
+  username: {
+    type: String,
+    unique: true
+  },
   first: String,
   last: String,
   password: String,

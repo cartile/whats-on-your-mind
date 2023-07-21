@@ -14,7 +14,7 @@ function generateJWT(user) {
   const tokenData = {
     username: user.username,
     id: user._id,
-    likedPosts: likedPosts
+    likedPosts: user.likedPosts
   };
   return _jsonwebtoken.default.sign({
     user: tokenData

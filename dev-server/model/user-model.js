@@ -3,7 +3,10 @@ import { StringUtil } from '../utilities/string-util'
 import bcrypt from 'bcrypt-nodejs'
 
 const userSchema = new mongoose.Schema({
-    username: String,
+    username: {
+        type: String,
+        unique: true
+    },
     first: String,
     last: String, 
     password: String,
