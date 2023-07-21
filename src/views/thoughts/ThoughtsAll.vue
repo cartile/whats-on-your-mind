@@ -78,12 +78,8 @@
     data() {
       return {
         isClickedList:[],
-        currentThoughtId: null
-      }
-    },
-    computed: {
-      myUser () {
-        return authService.getUser()
+        currentThoughtId: null,
+        myUser: null
       }
     },
     methods: {
@@ -129,14 +125,20 @@
         
         return `on ${formattedDate}`
       },
+    }, async mounted() {
+      try {
+        this.myUser = await authService.getUser()
+        console.log(this.$route.meta.thoughts)
+        console.log(Object.keys(this.myUser)) // ONLY USERNAME AND ID, FIGURE OUT HOW TO GET LIKEDPOSTS HERE
+        console.log(this.myUser.likedPosts.length)
+      } catch (error) {
+      console.error('Error fetching user data:', error)
+      }
     },
     created() {
   this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
   //console.log(Object.keys(this.$store.state))
-  console.log(this.$route.meta.thoughts)
-  console.log(Object.keys(this.myUser)) // ONLY USERNAME AND ID, FIGURE OUT HOW TO GET LIKEDPOSTS HERE
-  console.log(this.myUser.likedPosts)
-}
+  }
 }
 </script>
 
