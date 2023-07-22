@@ -127,18 +127,17 @@
     }, async mounted() {
       try {
         this.myUser = await thoughtService.getUser(authService.getUser().id)
-        console.log(this.$route.meta.thoughts)
-        console.log(this.myUser.data.user.likedPosts)
-        console.log(Object.keys(this.myUser)) // ONLY USERNAME AND ID, FIGURE OUT HOW TO GET LIKEDPOSTS HERE
-        console.log(this.myUser.likedPosts)
+        this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
+        this.$route.meta.thoughts.forEach((thought, index) => {
+            if(this.myUser.data.user.likedPosts.includes(thought._id)) {
+              this.isClickedList[index] = true
+            }
+        })
+
       } catch (error) {
       console.error('Error fetching user data:', error)
       }
-    },
-    created() {
-  this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
-  //console.log(Object.keys(this.$store.state))
-  }
+    }
 }
 </script>
 
