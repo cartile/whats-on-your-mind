@@ -34,7 +34,7 @@ export async function create(req, res) {
 export async function update(req, res) {
     try {
         const userId = auth.getUserId(req)
-        const user = await User.findOne({ _id: id}).exec()
+        const user = await User.findOne({ _id: userId}).exec()
         if(!user) {
             return res.status(404).json()
         }

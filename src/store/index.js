@@ -7,6 +7,7 @@ export default createStore({
     apiUrl: 'http://localhost:3000/api',
     username: null,
     userid: null,
+    user: null
   },
   getters: {
   },
@@ -16,9 +17,11 @@ export default createStore({
       if (state.isLoggedIn) {
         state.username = auth.getUsername()
         state.userId = auth.getUserId()
+        state.user = auth.getUser()
       } else {
         state.userId = null
         state.username = null
+        state.user = null
       }
     }
   },

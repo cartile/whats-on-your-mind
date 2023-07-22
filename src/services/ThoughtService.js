@@ -27,4 +27,7 @@ export function updateThought(thought) {
 export function updateThoughtLikes(id, likes) {
     return http().put(`/thought/${id}/likes`, { likes });
 }
+export function getUser(id) {
+    return http().get(`/user/${id}`);
+}
   

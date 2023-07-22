@@ -9,7 +9,7 @@ router.get('/thought', controller.index)
 
 router.put('/thought', auth.requireLogin, controller.update)
 
-router.delete('/thought', auth.requireLogin, auth.requireLogin, controller.remove)
+router.delete('/thought', auth.requireLogin, controller.remove)
 
 router.get('/thought/:id', controller.show)
 

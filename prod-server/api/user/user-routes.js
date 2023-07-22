@@ -9,6 +9,6 @@ exports.default = void 0;
 var _express = _interopRequireDefault(require("express"));
 var controller = _interopRequireWildcard(require("./user-controller"));
 const router = _express.default.Router();
-router.get('/user', controller.index);
+router.get('/user/:id', controller.show);
 var _default = router;
 exports.default = _default;

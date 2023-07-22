@@ -72,7 +72,6 @@
   import * as thoughtService from '../../services/ThoughtService'
   import * as authService from '../../services/AuthService';
 
-
   export default {
     name: 'thoughts-all',
     data() {
@@ -127,10 +126,11 @@
       },
     }, async mounted() {
       try {
-        this.myUser = await authService.getUser()
+        this.myUser = await thoughtService.getUser(authService.getUser().id)
         console.log(this.$route.meta.thoughts)
+        console.log(this.myUser.data.user.likedPosts)
         console.log(Object.keys(this.myUser)) // ONLY USERNAME AND ID, FIGURE OUT HOW TO GET LIKEDPOSTS HERE
-        console.log(this.myUser.likedPosts.length)
+        console.log(this.myUser.likedPosts)
       } catch (error) {
       console.error('Error fetching user data:', error)
       }

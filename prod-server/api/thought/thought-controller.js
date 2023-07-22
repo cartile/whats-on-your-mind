@@ -49,7 +49,7 @@ async function update(req, res) {
   try {
     const userId = auth.getUserId(req);
     const user = await _userModel.default.findOne({
-      _id: id
+      _id: userId
     }).exec();
     if (!user) {
       return res.status(404).json();
