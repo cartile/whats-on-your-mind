@@ -17,11 +17,15 @@ function setToken(token) {
 }
 
 export function login(user) {
-    return http().post('/auth', user)
+    return http().post('auth', user)
     .then(res => {
-        if(res){
+        if(res.status === 200) {
             setToken(res.data.token)
         }
+    })
+    .catch(error => {
+        console.error('Error during login:, error')
+        throw error
     })
 }
 

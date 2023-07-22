@@ -129,7 +129,6 @@ async function updateLikes(req, res) {
     }
     thought.likes = likes;
     await thought.save();
-    console.log(user.likedPosts);
     const isLiked = user.likedPosts.includes(thoughtId);
     if (!isLiked) {
       //thought ID is not in the likedPosts array, add it

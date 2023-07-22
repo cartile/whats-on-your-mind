@@ -27,6 +27,9 @@ userSchema.pre(
         this.username = this.username.toLowerCase()
         this.first = this.first.toLowerCase()
         this.last = this.last.toLowerCase()
+        if (!this.isModified('password')) {
+            return next(); // If password hasn't changed, skip password hashing
+        }
         const plainPassword = this.password
         this.password = bcrypt.hashSync(plainPassword)
         next()
