@@ -20,8 +20,15 @@ const thoughtSchema = new _mongoose.default.Schema({
   author: {
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: 'user'
+  },
+  updatedAt: {
+    type: Date
   }
 });
 thoughtSchema.set('timestamps', true); //gives createdAt and updatedAt
+thoughtSchema.pre('save', function (next) {
+  this.updatedAt = new Date();
+  next();
+});
 var _default = _mongoose.default.model('thought', thoughtSchema);
 exports.default = _default;
