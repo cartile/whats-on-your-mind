@@ -19,7 +19,9 @@
         title=""
         style="display: flex; flex-direction: column; height: 100%;" 
       >
-        <v-card-title>{{ thought.title }}</v-card-title>
+        <v-card-title>{{ thought.title }}            
+        </v-card-title>
+        
         <v-card-subtitle>
           {{ isUpdated(thought) ? 'Updated ' : 'Created ' }} {{ formatDate(isUpdated(thought) ? thought.updatedAt : thought.createdAt) }}
         </v-card-subtitle>
@@ -77,11 +79,15 @@
     data() {
       return {
         isClickedList:[],
+        isOwnedList: [],
         currentThoughtId: null,
         myUser: null
       }
     },
     methods: {
+      async handleEdit(index){
+        console.log(index)
+      },
       async handleClick(index) {
         // true means liked 
         this.isClickedList[index] = !this.isClickedList[index]
@@ -128,9 +134,15 @@
       try {
         this.myUser = await thoughtService.getUser(authService.getUser().id)
         this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
-        this.$route.meta.thoughts.forEach((thought, index) => {
+        this.isOwnedList = Array(this.$route.meta.thoughts.length).fill(false);
+        const thoughts = this.$route.meta.thoughts
+        
+        thoughts.forEach((thought, index) => {
             if(this.myUser.data.user.likedPosts.includes(thought._id)) {
               this.isClickedList[index] = true
+            }
+            if(thought.author._id === this.myUser.data.user._id) {
+              this.isOwnedList[index] = true
             }
         })
 
