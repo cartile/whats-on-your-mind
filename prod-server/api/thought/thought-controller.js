@@ -66,6 +66,7 @@ async function update(req, res) {
   }
 }
 async function remove(req, res) {
+  console.log(req.params._id);
   try {
     const id = auth.getUserId(req);
     const thought = await _thoughtModel.default.findOne({

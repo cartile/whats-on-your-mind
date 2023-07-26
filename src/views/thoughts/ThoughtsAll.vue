@@ -7,9 +7,9 @@
         Add a Thought
       </router-link>
     </div>
-    <div class="thought-cards-container" v-if="this.$route.meta.thoughts && this.$route.meta.thoughts.length > 0">
+    <div class="thought-cards-container" v-if="thoughts && thoughts.length > 0">
       <v-card
-        v-for="(thought, index) in this.$route.meta.thoughts"
+        v-for="(thought, index) in thoughts"
         :key="thought._id"
         class="mx-auto mb-2 ml-2"
         color="#26c6da"
@@ -27,7 +27,7 @@
               width="auto"
             >
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" @click="handleEdit(index)" style="display: flex; align-items: center; cursor: pointer; margin-right:5px; background-color: #016FB9">
+                <v-btn v-bind="props" @click="handleEditDialog(index)" style="display: flex; align-items: center; cursor: pointer; margin-right:5px; background-color: #016FB9">
                   <v-icon 
                   class="me-1" 
                   icon="mdi-pencil" />
@@ -51,7 +51,7 @@
               width="auto"
             >
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" @click="handleDelete(index)" style="display: flex; align-items: center; cursor: pointer; margin-right:5px; background-color: #016FB9">
+                <v-btn v-bind="props" @click="handleDeleteDialog(index)" style="display: flex; align-items: center; cursor: pointer; margin-right:5px; background-color: #016FB9">
                   <v-icon 
                   class="me-1" 
                   icon="mdi-delete" />
@@ -59,18 +59,24 @@
               </template>
 
               <v-card>
-                <v-card-text>
-                  tryna delete sumn? {{ index }}
+                <v-card-text class="text-center">
+                  Are you sure you want to delete: "{{thoughts[index].title || 'No Title'}}"? 
+                  <br>
+                  <br>
+                  This action cannot be undone.
                 </v-card-text>
-                <v-card-actions>
-                  <v-btn color="primary" block @click="this.deleteDialogs[index] = false">Close Dialog</v-btn>
+                <v-card-actions class="pa-1" style="margin-botton:0px;">
+                  <v-btn color="red" style="background-color:red;" block @click="this.deleteDialogs[index] = false; handleDelete(thoughts[index])">Confirm Delete</v-btn>
+                </v-card-actions>
+                <v-card-actions class="pa-0" style="margin-botton:0px;">
+                  <v-btn color="primary" block @click="this.deleteDialogs[index] = false">Cancel</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </div>
         </div>
 
-        <v-card-title>{{ thought.title }}            
+        <v-card-title>{{ thought.title || 'No Title'  }}            
         </v-card-title>
         
         <v-card-subtitle>
@@ -130,6 +136,7 @@
     name: 'thoughts-all',
     data() {
       return {
+        thoughts: [],
         isClickedList:[],
         isOwnedList: [],
         currentThoughtId: null,
@@ -139,23 +146,30 @@
       }
     },
     methods: {
-      async handleEdit(index){
-        console.log(index)
+      async handleEditDialog(index){
         this.editDialogs[index] = true;
       },
-      async handleDelete(index) {
-        console.log(index)
+      async handleDeleteDialog(index) {
         this.deleteDialogs[index] = true;
+      },
+      async handleDelete(thought) {
+        // await thoughtService.deleteThought(thought._id)
+        console.log(thought)
+        const index = this.thoughts.findIndex(thoughtListItem => thoughtListItem._id === thought._id)
+        this.thoughts.splice(index, 1)
+      },
+      async handleEdit(thought) {
+        console.log(thought)
       },
       async handleClick(index) {
         // true means liked 
         this.isClickedList[index] = !this.isClickedList[index]
         if (this.isClickedList[index]) {
-          this.$route.meta.thoughts[index].likes += 1 //like
+          this.thoughts[index].likes += 1 //like
         } else {
-          this.$route.meta.thoughts[index].likes -= 1 //unliked
+          this.thoughts[index].likes -= 1 //unliked
         }
-        const thought = this.$route.meta.thoughts[index]
+        const thought = this.thoughts[index]
         await thoughtService.updateThoughtLikes(thought._id, thought.likes)
       },
       isUpdated(thought) {
@@ -191,14 +205,14 @@
       },
     }, async mounted() {
       try {
+        this.thoughts = this.$route.meta.thoughts;
         this.myUser = await thoughtService.getUser(authService.getUser().id)
         this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
         this.isOwnedList = Array(this.$route.meta.thoughts.length).fill(false);
         this.deleteDialogs = Array(this.$route.meta.thoughts.length).fill(false);
         this.editDialogs = Array(this.$route.meta.thoughts.length).fill(false);
-        const thoughts = this.$route.meta.thoughts
         
-        thoughts.forEach((thought, index) => {
+        this.thoughts.forEach((thought, index) => {
             if(this.myUser.data.user.likedPosts.includes(thought._id)) {
               this.isClickedList[index] = true
             }

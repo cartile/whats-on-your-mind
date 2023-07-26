@@ -50,6 +50,7 @@ export async function update(req, res) {
 }
 
 export async function remove(req, res) {
+    console.log(req.params._id)
     try {
         const id = auth.getUserId(req)
         const thought = await Thought.findOne({_id: req.params.id}).exec()
