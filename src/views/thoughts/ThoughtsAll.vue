@@ -153,7 +153,7 @@
         this.deleteDialogs[index] = true;
       },
       async handleDelete(thought) {
-        // await thoughtService.deleteThought(thought._id)
+        await thoughtService.deleteThought(thought._id)
         console.log(thought)
         const index = this.thoughts.findIndex(thoughtListItem => thoughtListItem._id === thought._id)
         this.thoughts.splice(index, 1)
