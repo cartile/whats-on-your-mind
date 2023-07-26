@@ -14,17 +14,16 @@
         class="mx-auto mb-2 ml-2"
         color="#26c6da"
         theme="dark"
-        max-width="400"
-        min-width="350"
+        width="400"
         title=""
         style="display: flex; flex-direction: column; height: 100%;" 
       >
       
-      <div class="d-flex" style="position: absolute; right: 0px; top: 5px;" >
+      <div class="d-flex" style="position: absolute; right: 0px; top: 5px;" v-if="isOwned(index)">
           <div class="text-center">
             <v-dialog
               v-model="editDialogs[index]"
-              width="auto"
+              width="600"
             >
               <template v-slot:activator="{ props }">
                 <v-btn v-bind="props" @click="handleEditDialog(index)" style="display: flex; align-items: center; cursor: pointer; margin-right:5px; background-color: #016FB9">
@@ -35,11 +34,41 @@
               </template>
 
               <v-card>
-                <v-card-text>
-                  tryna edit sumn? {{ index }}
-                </v-card-text>
+                <v-form v-model="valid" validate-on="submit lazy" @submit.prevent="handleEdit(thoughts[index], index, title, body)">
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12">
+                        <v-text-field
+                          v-model="title"
+                          :rules="titleRules"
+                          label="Title"
+                          required
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col
+                        cols="12"
+                      >
+                        <v-text-field
+                          v-model="body"
+                          :rules="bodyRules"
+                          label="Body"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-btn
+                        :loading="loading"
+                        type="submit"
+                        block
+                        class="mt-2"
+                        text="Submit"
+                        style="background-color:green"
+                      ></v-btn>
+                    </v-row>
+                  </v-container>
+                </v-form>
                 <v-card-actions>
-                  <v-btn color="primary" block @click="this.editDialogs[index] = false">Close Dialog</v-btn>
+                  <v-btn color="primary" block @click="this.editDialogs[index] = false">Cancel</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -65,10 +94,10 @@
                   <br>
                   This action cannot be undone.
                 </v-card-text>
-                <v-card-actions class="pa-1" style="margin-botton:0px;">
+                <v-card-actions class="pa-1" style="margin-bottom:0px;">
                   <v-btn color="red" style="background-color:red;" block @click="this.deleteDialogs[index] = false; handleDelete(thoughts[index])">Confirm Delete</v-btn>
                 </v-card-actions>
-                <v-card-actions class="pa-0" style="margin-botton:0px;">
+                <v-card-actions class="pa-0" style="margin-bottom:0px;">
                   <v-btn color="primary" block @click="this.deleteDialogs[index] = false">Cancel</v-btn>
                 </v-card-actions>
               </v-card>
@@ -142,7 +171,25 @@
         currentThoughtId: null,
         myUser: null,
         editDialogs: [],
-        deleteDialogs: []
+        deleteDialogs: [],
+        
+        valid: false,
+        title: '',
+        titleRules: [
+          value => {
+            if(value) return true
+
+            return 'Title is required'
+          }
+        ], 
+        body: '',
+        bodyRules: [
+          value => {
+            if(value) return true
+
+            return 'Body is required'
+          }
+        ]
       }
     },
     methods: {
@@ -157,9 +204,17 @@
         console.log(thought)
         const index = this.thoughts.findIndex(thoughtListItem => thoughtListItem._id === thought._id)
         this.thoughts.splice(index, 1)
-      },
-      async handleEdit(thought) {
-        console.log(thought)
+      }, 
+      async handleEdit(thought, index, title, body) {
+
+          this.editDialogs[index] = false
+          this.thoughts[index].title = title
+          this.thoughts[index].body = body
+          this.thoughts[index].updatedAt = new Date()
+
+          console.log(thought)
+          console.log(title)
+          console.log(body)
       },
       async handleClick(index) {
         // true means liked 
@@ -202,7 +257,9 @@
         // If it's older than a year, show the date in "MMM DD, YYYY" format
         
         return `on ${formattedDate}`
-      },
+      }, isOwned(index){
+        return this.isOwnedList[index]
+      }
     }, async mounted() {
       try {
         this.thoughts = this.$route.meta.thoughts;
