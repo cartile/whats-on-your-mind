@@ -7,7 +7,7 @@
         Add a Thought
       </router-link>
     </div>
-    <div class="d-flex flex-wrap justify-content-between" v-if="this.$route.meta.thoughts && this.$route.meta.thoughts.length > 0">
+    <div class="thought-cards-container" v-if="this.$route.meta.thoughts && this.$route.meta.thoughts.length > 0">
       <v-card
         v-for="(thought, index) in this.$route.meta.thoughts"
         :key="thought._id"
@@ -19,6 +19,57 @@
         title=""
         style="display: flex; flex-direction: column; height: 100%;" 
       >
+      
+      <div class="d-flex" style="position: absolute; right: 0px; top: 5px;" >
+          <div class="text-center">
+            <v-dialog
+              v-model="editDialogs[index]"
+              width="auto"
+            >
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" @click="handleEdit(index)" style="display: flex; align-items: center; cursor: pointer; margin-right:5px; background-color: #016FB9">
+                  <v-icon 
+                  class="me-1" 
+                  icon="mdi-pencil" />
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-text>
+                  tryna edit sumn? {{ index }}
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" block @click="this.editDialogs[index] = false">Close Dialog</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+
+          <div class="text-center">
+            <v-dialog
+              v-model="deleteDialogs[index]"
+              width="auto"
+            >
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" @click="handleDelete(index)" style="display: flex; align-items: center; cursor: pointer; margin-right:5px; background-color: #016FB9">
+                  <v-icon 
+                  class="me-1" 
+                  icon="mdi-delete" />
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-text>
+                  tryna delete sumn? {{ index }}
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" block @click="this.deleteDialogs[index] = false">Close Dialog</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+        </div>
+
         <v-card-title>{{ thought.title }}            
         </v-card-title>
         
@@ -65,6 +116,7 @@
           </div>
           </v-card-actions>
         </div>
+        
       </v-card>
     </div>
   </div>
@@ -81,12 +133,19 @@
         isClickedList:[],
         isOwnedList: [],
         currentThoughtId: null,
-        myUser: null
+        myUser: null,
+        editDialogs: [],
+        deleteDialogs: []
       }
     },
     methods: {
       async handleEdit(index){
         console.log(index)
+        this.editDialogs[index] = true;
+      },
+      async handleDelete(index) {
+        console.log(index)
+        this.deleteDialogs[index] = true;
       },
       async handleClick(index) {
         // true means liked 
@@ -135,6 +194,8 @@
         this.myUser = await thoughtService.getUser(authService.getUser().id)
         this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
         this.isOwnedList = Array(this.$route.meta.thoughts.length).fill(false);
+        this.deleteDialogs = Array(this.$route.meta.thoughts.length).fill(false);
+        this.editDialogs = Array(this.$route.meta.thoughts.length).fill(false);
         const thoughts = this.$route.meta.thoughts
         
         thoughts.forEach((thought, index) => {
@@ -152,6 +213,15 @@
     }
 }
 </script>
+
+<style>
+.thought-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 400px));
+  grid-gap: 10px; /* Adjust the gap between cards as needed */
+  justify-content: start;
+}
+</style>
 
 
 
