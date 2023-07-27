@@ -38,7 +38,7 @@ export async function update(req, res) {
         if(!user) {
             return res.status(404).json()
         }
-        const thought = req.body.thought
+        const thought = req.body
         thought.author = user._id
 
         await Thought.findByIdAndUpdate({_id: thought._id}, thought).exec()
@@ -50,7 +50,7 @@ export async function update(req, res) {
 }
 
 export async function remove(req, res) {
-    console.log(req.params._id)
+    console.log
     try {
         const id = auth.getUserId(req)
         const thought = await Thought.findOne({_id: req.params.id}).exec()

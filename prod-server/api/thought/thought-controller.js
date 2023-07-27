@@ -54,7 +54,7 @@ async function update(req, res) {
     if (!user) {
       return res.status(404).json();
     }
-    const thought = req.body.thought;
+    const thought = req.body;
     thought.author = user._id;
     await _thoughtModel.default.findByIdAndUpdate({
       _id: thought._id
@@ -66,7 +66,7 @@ async function update(req, res) {
   }
 }
 async function remove(req, res) {
-  console.log(req.params._id);
+  console.log;
   try {
     const id = auth.getUserId(req);
     const thought = await _thoughtModel.default.findOne({

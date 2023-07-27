@@ -212,9 +212,7 @@
           this.thoughts[index].body = body
           this.thoughts[index].updatedAt = new Date()
 
-          console.log(thought)
-          console.log(title)
-          console.log(body)
+          await thoughtService.updateThought(this.thoughts[index])
       },
       async handleClick(index) {
         // true means liked 
