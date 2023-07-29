@@ -6,6 +6,7 @@ export async function index(req, res) {
     //find all thoughts
     try {
         const thoughts = await Thought.find().populate('author', 'username', 'user')
+        res.set('Cache-Control', 'public, max-age=300');
         return res.status(200).json({ thoughts: thoughts })
     } catch (error) {
         console.log(error)
