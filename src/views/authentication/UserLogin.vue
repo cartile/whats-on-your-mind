@@ -1,5 +1,7 @@
 <template>
-    <div>
+    <div id="loginDiv">
+        something
+        <!--
         <h1>Login</h1>
         <form class="custom-form" v-on:submit.prevent="onSubmit">
             <div class="form-group">
@@ -15,11 +17,11 @@
             </div>
             
         </form>
+        -->
     </div>
 </template>
 
 <script>
-
     import * as auth from '../../services/AuthService'
     export default {
         name: 'UserLogin',
