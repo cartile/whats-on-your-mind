@@ -4,7 +4,7 @@
         <div class="wrap-login100">
             <form class="login100-form validate-form" v-on:submit.prevent="onSubmit">
                 <span class="login100-form-title p-b-26">
-                    <img src="../../assets/loginLogo.png" alt="what's on your mind?">
+                    <img src="../../assets/loginLogo.png" alt="Site Logo">
                 </span>
                 <span class="login100-form-title p-b-48">
                     <i class="zmdi zmdi-font"></i>
@@ -16,9 +16,6 @@
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Enter password">
-                    <span class="btn-show-pass">
-                        <i class="zmdi zmdi-eye"></i>
-                    </span>
                     <input class="input100" type="password" name="pass" v-model="password" id="password">
                     <span class="focus-input100" data-placeholder="Password"></span>
                 </div>
@@ -40,7 +37,7 @@
                     <h2 class="txt1" style="margin-bottom: 0px; margin-top: 5px;">
                         Or, 
                     </h2>
-                    <router-link to="/" class="nav-link txt2" exact> 
+                    <router-link to="/" class="nav-link txt2" style="padding-bottom:20px; padding-top: 6px;" exact> 
                         Continue without logging in
                     </router-link>
                 </div>
