@@ -1,9 +1,9 @@
 <template>
-    <Navbar />
-    <div id="app-container">
+    <Navbar v-if="!isLoginOrRegister"/>
+    <div id="app-container" :class="{'full-screen': isLoginOrRegister}">
       <router-view/>
     </div>
-    <AppFooter />
+    <AppFooter v-if="!isLoginOrRegister"/>
 </template>
 
 <script>
@@ -11,14 +11,18 @@
   import AppFooter from '@/components/AppFooter.vue'
   
   export default {
-    name:'app',
+    name: 'app',
     components: {
       Navbar,
       AppFooter
     },
-    beforeCreate: function() {
-      this.$store.dispatch('authenticate')
+    beforeCreate() {
+      this.$store.dispatch('authenticate');
+    },
+    computed: {
+      isLoginOrRegister() {
+        return this.$route.name === "login" || this.$route.name === "register";
+      }
     }
-
-  }
+}
 </script>
