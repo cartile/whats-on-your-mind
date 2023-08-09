@@ -3,7 +3,7 @@
     <div class="container-login100">
         <div class="wrap-login100">
             <form class="login100-form validate-form" v-on:submit.prevent="onSubmit">
-                <span class="login100-form-title p-b-26">
+                <span class="login100-form-title">
                     <img src="../../assets/loginLogo.png" alt="Site Logo">
                 </span>
                 <span class="login100-form-title p-b-48">
