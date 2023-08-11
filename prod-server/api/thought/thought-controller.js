@@ -28,13 +28,7 @@ async function index(req, res) {
       $sort: {
         latestActivity: -1
       }
-    }]).lookup({
-      from: "users",
-      localField: "author",
-      foreignField: "_id",
-      as: "author"
-    }).unwind("author"); // assuming each thought has only one author
-
+    }]);
     res.set('Cache-Control', 'public, max-age=300');
     return res.status(200).json({
       thoughts: thoughts
