@@ -20,7 +20,7 @@ export async function index(req, res) {
             }
         ])
         .lookup({
-            from: "users", // assuming the User collection name is "users"
+            from: "users", 
             localField: "author",
             foreignField: "_id",
             as: "author"
