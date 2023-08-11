@@ -7,6 +7,7 @@
         Add a Thought
       </router-link>
     </div>
+    <h2>Latest Thoughts:</h2>
     <div class="thought-cards-container" v-if="thoughts && thoughts.length > 0">
       <v-card
         v-for="(thought, index) in thoughts"

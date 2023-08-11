@@ -10,12 +10,12 @@
                     <i class="zmdi zmdi-font"></i>
                 </span>
 
-                <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+                <div class="wrap-input100 validate-input">
                     <input class="input100" v-model="username" type="text"  id="username" placeholder="">
                     <span class="focus-input100" data-placeholder="Username"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter password">
+                <div class="wrap-input100 validate-input">
                     <input class="input100" type="password" name="pass" v-model="password" id="password">
                     <span class="focus-input100" data-placeholder="Password"></span>
                 </div>

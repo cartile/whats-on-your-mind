@@ -10,24 +10,24 @@
                     <i class="zmdi zmdi-font"></i>
                 </span>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter first name">
-                    <input class="input100" v-model="first" type="text" id="first" placeholder="">
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" v-model="first" type="text" id="first" placeholder="" minlength="2" maxlength="30">
                     <span class="focus-input100" data-placeholder="First Name"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter last name">
-                    <input class="input100" v-model="last" type="text" id="last" placeholder="">
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" v-model="last" type="text" id="last" placeholder="" minlength="2" maxlength="30">
                     <span class="focus-input100" data-placeholder="Last Name"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input" data-validate="Enter username">
-                    <input class="input100" v-model="username" type="text" id="username" placeholder="">
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" v-model="username" type="text" id="username" placeholder="" minlength="1" maxlength="15">
                     <span class="focus-input100" data-placeholder="Username"></span>
                 </div>
 
 
-                <div class="wrap-input100 validate-input" data-validate="Enter password">
-                    <input class="input100" type="password" name="pass" v-model="password" id="password">
+                <div class="wrap-input100 validate-input">
+                    <input class="input100" type="password" name="pass" v-model="password" id="password" minlength="2" maxlength="20">
                     <span class="focus-input100" data-placeholder="Password"></span>
                 </div>
 

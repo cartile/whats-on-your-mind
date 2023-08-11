@@ -3,16 +3,38 @@ import Thought from '../../model/thought-model'
 import * as auth from '../../services/auth-service'
 
 export async function index(req, res) {
-    //find all thoughts
+    // find all thoughts
     try {
-        const thoughts = await Thought.find().populate('author', 'username', 'user')
+        const thoughts = await Thought.aggregate([
+            {
+                $addFields: {
+                    latestActivity: {
+                        $max: ["$createdAt", "$updatedAt"]
+                    }
+                }
+            },
+            {
+                $sort: {
+                    latestActivity: -1
+                }
+            }
+        ])
+        .lookup({
+            from: "users", // assuming the User collection name is "users"
+            localField: "author",
+            foreignField: "_id",
+            as: "author"
+        })
+        .unwind("author"); // assuming each thought has only one author
+
         res.set('Cache-Control', 'public, max-age=300');
-        return res.status(200).json({ thoughts: thoughts })
+        return res.status(200).json({ thoughts: thoughts });
     } catch (error) {
-        console.log(error)
-        return res.status(500).json()
+        console.log(error);
+        return res.status(500).json();
     }
 }
+
 
 export async function create(req, res) {
     // create thought

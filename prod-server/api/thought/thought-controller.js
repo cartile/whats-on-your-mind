@@ -16,9 +16,26 @@ var _userModel = _interopRequireDefault(require("../../model/user-model"));
 var _thoughtModel = _interopRequireDefault(require("../../model/thought-model"));
 var auth = _interopRequireWildcard(require("../../services/auth-service"));
 async function index(req, res) {
-  //find all thoughts
+  // find all thoughts
   try {
-    const thoughts = await _thoughtModel.default.find().populate('author', 'username', 'user');
+    const thoughts = await _thoughtModel.default.aggregate([{
+      $addFields: {
+        latestActivity: {
+          $max: ["$createdAt", "$updatedAt"]
+        }
+      }
+    }, {
+      $sort: {
+        latestActivity: -1
+      }
+    }]).lookup({
+      from: "users",
+      // assuming the User collection name is "users"
+      localField: "author",
+      foreignField: "_id",
+      as: "author"
+    }).unwind("author"); // assuming each thought has only one author
+
     res.set('Cache-Control', 'public, max-age=300');
     return res.status(200).json({
       thoughts: thoughts
