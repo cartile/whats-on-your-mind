@@ -149,9 +149,9 @@ export default {
         }
     },
     props: {
-            thought: {
-        type: Object,
-        required: true,
+        thought: {
+            type: Object,
+            required: true,
         },
         index: {
         type: Number,
@@ -160,10 +160,9 @@ export default {
         isClicked: {
         type: Boolean,
         default: false,
-        },
-        isOwned: {
+        }, isOwned: {
         type: Boolean,
-        default: false,
+        default: false
         },
     },
     methods: {
@@ -175,7 +174,8 @@ export default {
         },
         handleClick() {
             this.$emit('click', this.index);
-        }, isUpdated(thought) {
+        }, 
+        isUpdated(thought) {
             return thought.updatedAt && thought.updatedAt !== thought.createdAt;
         }, formatDate(date) {
         const dateObj = new Date(date)

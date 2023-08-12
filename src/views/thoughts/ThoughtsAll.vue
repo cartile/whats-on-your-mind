@@ -10,17 +10,18 @@
     <div class="thought-cards-container" v-if="thoughts && thoughts.length > 0">
         <div class="leftDiv">
           <h2>Latest Thoughts:</h2>
+          
         <thoughtCard
           v-for="(thought, index) in thoughts"
           :key="thought._id"
           :thought="thought"
           :index="index"
           :isClicked="isClickedList[index]"
+          :isOwned="isOwnedList[index]"
           @update:isClicked="value => isClickedList[index] = value"
           @edit="handleEdit"
           @delete="handleDelete"
           @click="handleClick"
-          @isOwned="isOwned"
         />
       </div>
       <div class="rightDiv">
@@ -137,7 +138,6 @@
     }, async mounted() {
       try {
         this.thoughts = this.$route.meta.thoughts;
-        console.log(authService.getUser());
         this.myUser = await thoughtService.getUser(authService.getUser().id)
         this.isClickedList = Array(this.$route.meta.thoughts.length).fill(false);
         this.isOwnedList = Array(this.$route.meta.thoughts.length).fill(false);
@@ -152,7 +152,7 @@
               this.isOwnedList[index] = true
             }
         })
-
+      console.log(this.isOwnedList)
       } catch (error) {
       console.error('Error fetching user data:', error)
       }
