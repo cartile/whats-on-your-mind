@@ -28,8 +28,19 @@ async function index(req, res) {
       $sort: {
         latestActivity: -1
       }
+    }, {
+      $lookup: {
+        from: "users",
+        // The name of the collection in MongoDB. This might differ for you.
+        localField: "author",
+        foreignField: "_id",
+        as: "author"
+      }
+    }, {
+      $unwind: "$author"
     }]);
-    res.set('Cache-Control', 'public, max-age=300');
+
+    // res.set('Cache-Control', 'public, max-age=300');
     return res.status(200).json({
       thoughts: thoughts
     });
