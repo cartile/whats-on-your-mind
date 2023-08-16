@@ -1,6 +1,6 @@
 # Whats On Your Mind?
 Welcome to Whats On Your Mind, the place for real-time content sharing and interaction.
-## Currently deployed on Vercel: http://ec2-18-219-114-5.us-east-2.compute.amazonaws.com:3000/
+## Currently deployed on AWS: [http://ec2-18-219-114-5.us-east-2.compute.amazonaws.com:3000/](http://ec2-3-141-22-199.us-east-2.compute.amazonaws.com:3000/register)
 
 ## Features:
 - **Get Started**: Utilize our secure registration and login process, supported by encrypted user data storage and secure password hashing.
