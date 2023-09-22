@@ -1,8 +1,6 @@
 # Whats On Your Mind?
 Welcome to Whats On Your Mind, the place for real-time content sharing and interaction.
 
-![2023-08-16_01-33-54_1-min](https://github.com/cartile/whats-on-your-mind/assets/113253660/bb1c2346-c176-4d0e-a43e-4182ce723707)
-
 ## Currently deployed on [AWS](http://ec2-3-141-22-199.us-east-2.compute.amazonaws.com:3000/)
 
 ## Features:
