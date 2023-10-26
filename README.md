@@ -1,8 +1,8 @@
 # Whats On Your Mind?
 Welcome to Whats On Your Mind, the place for real-time content sharing and interaction.
 
-## Currently deployed on [AWS](http://ec2-3-141-22-199.us-east-2.compute.amazonaws.com:3000/)
-
+## Hosting Status
+This project is no longer hosted on AWS at [http://ec2-3-141-22-199.us-east-2.compute.amazonaws.com:3000/](http://ec2-3-141-22-199.us-east-2.compute.amazonaws.com:3000/). This change is due to the new pricing introduced by Amazon Web Services on July 28, 2023, where they announced a charge of "per IP per hour for all public IPv4 addresses, whether attached to a service or not". 
 ## Features:
 - Secure login/registration with encryption and hashing.
 - Functionality for thought creation.
